@@ -2,55 +2,61 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductBasket {
-    private final Product[] products = new Product[3]; // Используем массив длиной 3 для примера
-    private int currentIndex = 0;
+    private List<Product> products = new ArrayList<>();
 
-    // Метод добавления продукта в корзину
     public void addProduct(Product product) {
-        if (currentIndex >= products.length) {
-            System.out.println("Невозможно добавить продукт.");
-            return;
-        }
-        products[currentIndex++] = product;
+        products.add(product);
     }
 
-    // Метод получения общей стоимости корзины
     public int getTotalCost() {
-        int total = 0;
-        for (int i = 0; i < currentIndex; i++) {
-            total += products[i].getPrice();
+        int sum = 0;
+        for (Product product : products) {
+            sum += product.getPrice();
         }
-        return total;
+        return sum;
     }
 
-    // Метод, показывающий содержимое корзины
-    public void printProducts() {
-        if (currentIndex == 0) {
-            System.out.println("В корзине пусто.");
-            return;
-        }
-        for (int i = 0; i < currentIndex; i++) {
-            System.out.println(products[i].getName() + ": " + products[i].getPrice());
-        }
-        System.out.println("Итого: " + getTotalCost());
+    public void clearBasket() {
+        products.clear();
     }
 
-    // Метод проверки наличия товара по имени
     public boolean containsProductByName(String name) {
-        for (int i = 0; i < currentIndex; i++) {
-            if (products[i].getName().equals(name)) {
+        for (Product product : products) {
+            if (product.getName().equals(name)) {
                 return true;
             }
         }
         return false;
     }
 
-    // Метод очистки корзины
-    public void clearBasket() {
-        Arrays.fill(products, null);
-        currentIndex = 0;
+    // Улучшенный метод вывода товаров
+    public void printProducts() {
+        System.out.println("Список товаров в корзине:");
+        for (Product product : products) {
+            System.out.println(product.toString());
+        }
+
+        // Общая сумма
+        int totalCost = getTotalCost();
+        System.out.println("Итого: " + totalCost);
+
+        // Количество специальных товаров
+        int specialCount = countSpecialProducts();
+        System.out.println("Специальных товаров: " + specialCount);
+    }
+
+    // Подсчёт специальных товаров
+    private int countSpecialProducts() {
+        int count = 0;
+        for (Product product : products) {
+            if (product.isSpecial()) {
+                count++;
+            }
+        }
+        return count;
     }
 }
