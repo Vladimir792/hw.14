@@ -1,50 +1,24 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
-import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.*;
 
 public class App {
     public static void main(String[] args) {
-        // Создаем несколько продуктов
-        Product product1 = new Product("Кофе", 100);
-        Product product2 = new Product("Молоко", 50);
-        Product product3 = new Product("Хлеб", 30);
-        Product product4 = new Product("Масло", 80); // для теста полной корзины
+        // Создаем несколько товаров разных типов
+        SimpleProduct simpleProduct = new SimpleProduct("Чай", 50); // Обычный товар
+        DiscountedProduct discountedProduct = new DiscountedProduct("Шоколад", 100, 20); // Со скидкой 20%
+        FixPriceProduct fixPriceProduct = new FixPriceProduct("Хлеб"); // Фиксированная цена 100 рублей
 
         // Создаем корзину
         ProductBasket basket = new ProductBasket();
 
-        // Добавляем продукты в корзину
-        basket.addProduct(product1);
-        basket.addProduct(product2);
-        basket.addProduct(product3);
+        // Добавляем товары в корзину
+        basket.addProduct(simpleProduct);
+        basket.addProduct(discountedProduct);
+        basket.addProduct(fixPriceProduct);
 
-        // Пробуем добавить четвертый продукт в заполненную корзину
-        System.out.println("\nДобавляем продукт в заполненную корзину:");
-        basket.addProduct(product4); // ожидаемый вывод: "Невозможно добавить продукт."
-
-        // Показываем содержимое корзины
-        System.out.println("\nПечатаем содержимое корзины:");
+        // Выводим содержимое корзины
         basket.printProducts();
-
-        // Получаем общую стоимость корзины
-        System.out.println("\nСумма корзины: " + basket.getTotalCost());
-
-        // Проверяем наличие товара в корзине
-        System.out.println("\nЕсть ли молоко в корзине? " + basket.containsProductByName("Молоко"));
-        System.out.println("Есть ли масло в корзине? " + basket.containsProductByName("Масло")); // ожидается false
-
-        // Очищаем корзину
-        basket.clearBasket();
-
-        // Показываем содержимое пустой корзины
-        System.out.println("\nПоказываем содержимое пустой корзины:");
-        basket.printProducts(); // ожидание: "В корзине пусто."
-
-        // Проверяем стоимость пустой корзины
-        System.out.println("\nСтоимость пустой корзины: " + basket.getTotalCost());
-
-        // Проверяем наличие товара в пустой корзине
-        System.out.println("\nЕсть ли хлеб в пустой корзине? " + basket.containsProductByName("Хлеб"));
     }
 }
