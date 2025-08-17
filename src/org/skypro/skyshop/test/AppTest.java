@@ -2,41 +2,49 @@ package org.skypro.skyshop.test;
 
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.searching.BestResultNotFound;
 import org.skypro.skyshop.searching.SearchEngine;
 import org.skypro.skyshop.searching.Searchable;
 
-import java.util.Arrays;
 
 public class AppTest {
     public static void main(String[] args) {
-        // Уже существующее содержимое твоего класса AppTest...
-        // Создание товаров и корзины, вывод корзины...
+        // Простой продукт
+        SearchEngine engine = getSearchEngine();
 
-        // Блок поиска
-        System.out.println("\n=== Поиск ===");
+        // Первая попытка поиска
+        System.out.println("\n== Поиск по слову 'чай' ==");
+        try {
+            Searchable match = engine.findBestMatch("чай");
+            System.out.println("Лучшее совпадение: " + match.getName());
+        } catch (BestResultNotFound ex) {
+            System.err.println(ex.getMessage());
+        }
 
-        // Создаем несколько товаров и статей
-        SimpleProduct product1 = new SimpleProduct("Чай", 50);
-        SimpleProduct product2 = new SimpleProduct("Шоколад", 100);
-        Article article1 = new Article("История чая", "Самый любимый напиток миллионов.");
-        Article article2 = new Article("Шоколад и здоровье", "Польза шоколада для организма.");
+        // Вторая попытка поиска (отсутствует слово "кофе")
+        System.out.println("\n== Поиск по слову 'кофе' ==");
+        try {
+            Searchable coffeeMatch = engine.findBestMatch("кофе");
+            System.out.println("Лучшее совпадение: " + coffeeMatch.getName());
+        } catch (BestResultNotFound ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
 
-        // Создаем поисковый движок
-        SearchEngine searchEngine = new SearchEngine(10); // Устанавливаем емкость равную 10
+    private static SearchEngine getSearchEngine() {
+        SimpleProduct tea = new SimpleProduct("Чай", 50);
+        SimpleProduct chocolate = new SimpleProduct("Шоколад", 100);
 
-        // Добавляем товары и статьи в поисковый движок
-        searchEngine.add(product1);
-        searchEngine.add(product2);
-        searchEngine.add(article1);
-        searchEngine.add(article2);
+        // Статьи
+        Article articleTea = new Article("История чая", "Чай полезен и ароматен.");
+        Article articleChocolate = new Article("Полезность шоколада", "Шоколад улучшает настроение.");
 
-        // Производим поиск
-        System.out.println("Поиск по слову 'чай':");
-        Searchable[] results = searchEngine.search("чай");
-        System.out.println(Arrays.toString(results));
-
-        System.out.println("\nПоиск по слову 'шоколад':");
-        results = searchEngine.search("шоколад");
-        System.out.println(Arrays.toString(results));
+        // Инстанциация поискового движка
+        SearchEngine engine = new SearchEngine(10);
+        engine.add(tea);
+        engine.add(chocolate);
+        engine.add(articleTea);
+        engine.add(articleChocolate);
+        return engine;
     }
 }

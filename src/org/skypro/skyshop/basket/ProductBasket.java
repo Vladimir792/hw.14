@@ -20,23 +20,15 @@ public class ProductBasket {
         return sum;
     }
 
-    // Улучшенный метод вывода товаров
     public void printProducts() {
         System.out.println("Список товаров в корзине:");
         for (Product product : products) {
             System.out.println(product.toString());
         }
-
-        // Общая сумма
-        int totalCost = getTotalCost();
-        System.out.println("Итого: " + totalCost);
-
-        // Количество специальных товаров
-        int specialCount = countSpecialProducts();
-        System.out.println("Специальных товаров: " + specialCount);
+        System.out.println("Итого: " + getTotalCost());
+        System.out.println("Количество специальных товаров: " + countSpecialProducts());
     }
 
-    // Подсчет специальных товаров
     private int countSpecialProducts() {
         int count = 0;
         for (Product product : products) {
