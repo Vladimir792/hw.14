@@ -1,20 +1,30 @@
 package org.skypro.skyshop.product;
 
-public class SimpleProduct extends Product {
-    private final int price;
+import org.skypro.skyshop.searching.Searchable;
 
+public class SimpleProduct extends Product implements Searchable {
     public SimpleProduct(String name, int price) {
-        super(name);
-        this.price = price;
-    }
-
-    @Override
-    public int getPrice() {
-        return price;
+        super(name, price); // Передаем оба аргумента в конструктор родителя
     }
 
     @Override
     public String toString() {
         return getName() + ": " + getPrice();
+    }
+
+    // Реализация интерфейса Searchable
+    @Override
+    public String getSearchTerm() {
+        return getName(); // Поиск по названию товара
+    }
+
+    @Override
+    public String getContentType() {
+        return "PRODUCT"; // Тип контента — товар
+    }
+
+    @Override
+    public String getName() {
+        return super.getName(); // Используем метод getName из суперкласса
     }
 }

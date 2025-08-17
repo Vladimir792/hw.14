@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductBasket {
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product) {
         products.add(product);
@@ -18,19 +18,6 @@ public class ProductBasket {
             sum += product.getPrice();
         }
         return sum;
-    }
-
-    public void clearBasket() {
-        products.clear();
-    }
-
-    public boolean containsProductByName(String name) {
-        for (Product product : products) {
-            if (product.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // Улучшенный метод вывода товаров
@@ -49,7 +36,7 @@ public class ProductBasket {
         System.out.println("Специальных товаров: " + specialCount);
     }
 
-    // Подсчёт специальных товаров
+    // Подсчет специальных товаров
     private int countSpecialProducts() {
         int count = 0;
         for (Product product : products) {
