@@ -4,21 +4,19 @@ public class FixPriceProduct extends Product {
     private static final int FIXED_PRICE = 100; // Постоянная фиксированная цена
 
     public FixPriceProduct(String name) {
-        super(name);
+        super(name, FIXED_PRICE); // Явно указываем фиксированную цену при вызове конструктора родителя
     }
 
     @Override
     public int getPrice() {
-        return FIXED_PRICE;
-    }
-
-    @Override
-    public boolean isSpecial() {
-        return true; // Да, этот товар с фиксированной ценой является специальным
+        return FIXED_PRICE; // Всегда возвращаем фиксированную цену
     }
 
     @Override
     public String toString() {
-        return getName() + ": Фиксированная цена " + FIXED_PRICE;
+        return "FixPriceProduct{" +
+                "name='" + getName() + '\'' +
+                ", fixedPrice=" + FIXED_PRICE +
+                '}';
     }
 }
