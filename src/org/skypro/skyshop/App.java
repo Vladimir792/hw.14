@@ -1,24 +1,28 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
-import org.skypro.skyshop.product.*;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.SimpleProduct;
 
 public class App {
     public static void main(String[] args) {
-        // Создаем несколько товаров разных типов
-        SimpleProduct simpleProduct = new SimpleProduct("Чай", 50); // Обычный товар
-        DiscountedProduct discountedProduct = new DiscountedProduct("Шоколад", 100, 20); // Со скидкой 20%
-        FixPriceProduct fixPriceProduct = new FixPriceProduct("Хлеб"); // Фиксированная цена 100 рублей
+        // Простой продукт
+        SimpleProduct simpleProduct = new SimpleProduct("Чай", 50);
 
-        // Создаем корзину
+        // Дисконтированный продукт
+        DiscountedProduct discountedProduct = new DiscountedProduct("Шоколад", 100, 20);
+
+        // Фиксированная цена
+        FixPriceProduct fixPriceProduct = new FixPriceProduct("Хлеб");
+
+        // Корзина
         ProductBasket basket = new ProductBasket();
-
-        // Добавляем товары в корзину
         basket.addProduct(simpleProduct);
         basket.addProduct(discountedProduct);
         basket.addProduct(fixPriceProduct);
 
-        // Выводим содержимое корзины
+        // Печать содержимого корзины
         basket.printProducts();
     }
 }

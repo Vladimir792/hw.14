@@ -3,33 +3,34 @@ package org.skypro.skyshop.article;
 import org.skypro.skyshop.searching.Searchable;
 
 public class Article implements Searchable {
-    private final String title;     // Название статьи
-    private final String content;   // Текст статьи
+    private final String title;
+    private final String content;
 
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
     }
 
-    // Реализация интерфейса Searchable
     @Override
     public String getSearchTerm() {
-        return title + " " + content; // Поиск по названию и тексту статьи
+        return title + " " + content; // Искать будем по заголовку и содержанию
     }
 
     @Override
     public String getContentType() {
-        return "ARTICLE"; // Тип контента — статья
+        return "ARTICLE";
     }
 
     @Override
     public String getName() {
-        return title; // Имя объекта — это название статьи
+        return title;
     }
 
-    // Переопределение метода toString()
     @Override
     public String toString() {
-        return "Название статьи: " + title + "\nТекст статьи: " + content;
+        return "Статья {" +
+                "заголовок='" + title + '\'' +
+                ", содержание='" + content + '\'' +
+                '}';
     }
 }
