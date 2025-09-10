@@ -1,7 +1,7 @@
 package org.skypro.skyshop.searching;
 
 public interface Searchable {
-    String getSearchTerm();      // Термины для поиска
-    String getContentType();     // Тип контента
-    String getName();            // Название объекта
+    String getSearchTerm();       // Термин для поиска
+    String getContentType();      // TODO: Будет использоваться в дальнейшем для классификации объектов (например, статьи vs. товары)
+    String getName();             // Название объекта
 }

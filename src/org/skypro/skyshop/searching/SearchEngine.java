@@ -1,62 +1,24 @@
 package org.skypro.skyshop.searching;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchEngine {
-    private final Searchable[] items;
+    private final List<Searchable> data = new ArrayList<>();
 
-    public SearchEngine(int capacity) {
-        this.items = new Searchable[capacity]; // Максимальная вместимость хранилища
-    }
-
+    // Добавляем объект в поисковый движок
     public void add(Searchable item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                items[i] = item;
-                break;
-            }
-        }
+        data.add(item);
     }
 
-    /**
-     * Найти самый релевантный объект, соответствующий поисковому запросу.
-     *
-     * @param query Строка поиска
-     * @return Наиболее подходящий объект
-     */
-    public Searchable findBestMatch(String query) throws BestResultNotFound {
-        Searchable bestMatch = null;
-        int maxCount = -1;
-
-        for (Searchable item : items) {
-            if (item != null) {
-                int currentCount = countOccurrences(item.getSearchTerm(), query);
-                if (currentCount > maxCount) {
-                    maxCount = currentCount;
-                    bestMatch = item;
-                }
+    // Поиск подходящих результатов
+    public List<Searchable> search(String query) {
+        List<Searchable> results = new ArrayList<>();
+        for (Searchable item : data) {
+            if (item.getSearchTerm().contains(query)) {
+                results.add(item);
             }
         }
-
-        if (bestMatch == null) {
-            throw new BestResultNotFound("Результат для запроса \"" + query + "\" не найден!");
-        }
-
-        return bestMatch;
-    }
-
-    /**
-     * Подсчёт количества вхождений строки в текстовом поле.
-     *
-     * @param text Поле для поиска
-     * @param query Строка поиска
-     * @return Число вхождений
-     */
-    private int countOccurrences(String text, String query) {
-        int count = 0;
-        int position = 0;
-        while ((position = text.indexOf(query, position)) != -1) {
-            count++;
-            position += query.length();
-        }
-        return count;
+        return results;
     }
 }

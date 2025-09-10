@@ -13,12 +13,12 @@ public class Article implements Searchable {
 
     @Override
     public String getSearchTerm() {
-        return title + " " + content; // Искать будем по заголовку и содержанию
+        return title + " " + content; // Поиск по заголовку и содержанию
     }
 
     @Override
     public String getContentType() {
-        return "ARTICLE";
+        return "ARTICLE"; // Тип контента — статья
     }
 
     @Override
@@ -29,8 +29,8 @@ public class Article implements Searchable {
     @Override
     public String toString() {
         return "Статья {" +
-                "заголовок='" + title + '\'' +
-                ", содержание='" + content + '\'' +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 }
