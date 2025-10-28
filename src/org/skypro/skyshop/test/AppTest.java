@@ -7,6 +7,7 @@ import org.skypro.skyshop.searching.SearchEngine;
 import org.skypro.skyshop.searching.Searchable;
 
 import java.util.List;
+import java.util.TreeMap;
 
 public class AppTest {
     public static void main(String[] args) {
@@ -55,25 +56,25 @@ public class AppTest {
 
         // Поиск по слову "чай"
         System.out.println("\n=== Поиск по слову 'чай' ===");
-        List<Searchable> results = engine.search("чай"); // Получаем результаты поиска как Searchable
+        TreeMap<String, Searchable> results = engine.search("чай"); // ← Новая переменная типа TreeMap
         if (results.isEmpty()) {
             System.out.println("Совпадений не найдено.");
         } else {
             System.out.println("Найдено совпадений: ");
-            for (Searchable result : results) {
-                System.out.println(result.getName()); // Здесь можем выводить названия любых объектов
+            for (var entry : results.entrySet()) { // ← Работаем с парами ключ-значение
+                System.out.println(entry.getKey() + ": " + entry.getValue().toString());
             }
         }
 
         // Поиск по слову "сыр" (которого нет)
         System.out.println("\n=== Поиск по слову 'сыр' ===");
-        results = engine.search("сыр");
+        results = engine.search("сыр"); // ← То же самое, дерево сохраняется
         if (results.isEmpty()) {
             System.out.println("Совпадений не найдено.");
         } else {
             System.out.println("Найдено совпадений: ");
-            for (Searchable result : results) {
-                System.out.println(result.getName());
+            for (var entry : results.entrySet()) { // ← Аналогично обрабатывается
+                System.out.println(entry.getKey() + ": " + entry.getValue().toString());
             }
         }
     }

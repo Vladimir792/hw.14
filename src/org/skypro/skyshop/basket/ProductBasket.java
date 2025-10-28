@@ -3,56 +3,55 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductBasket {
-    private final List<Product> products = new ArrayList<>();
+    private final Map<String, List<Product>> products = new HashMap<>();
 
-    // Добавляем продукт в корзину
+    // Добавляет продукт в корзину
     public void addProduct(Product product) {
-        products.add(product);
+        products.computeIfAbsent(product.getName(), key -> new ArrayList<>())
+                .add(product);
     }
 
-    // Метод удаления продукта по имени
+    // Убирает продукты по имени и возвращает список удалённых товаров
     public List<Product> removeByName(String name) {
-        List<Product> removedProducts = new ArrayList<>();
-        Iterator<Product> iterator = products.iterator();
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (product.getName().equals(name)) {
-                removedProducts.add(product);
-                iterator.remove();
-            }
-        }
-        return removedProducts;
+        return products.remove(name);
     }
 
-    // Выводим содержимое корзины
+    // Печать содержимого корзины
     public void printProducts() {
         System.out.println("Список товаров в корзине:");
-        for (Product product : products) {
-            System.out.println(product.toString());
+        for (List<Product> list : products.values()) {
+            for (Product product : list) {
+                System.out.println(product.toString());
+            }
         }
         System.out.println("Итого: " + getTotalCost());
         System.out.println("Количество специальных товаров: " + countSpecialProducts());
     }
 
-    // Общая стоимость товаров
+    // Вычисляет общую стоимость товаров в корзине
     public int getTotalCost() {
         int total = 0;
-        for (Product product : products) {
-            total += product.getPrice();
+        for (List<Product> list : products.values()) {
+            for (Product product : list) {
+                total += product.getPrice();
+            }
         }
         return total;
     }
 
-    // Подсчет количества специальных товаров
+    // Подсчитывает количество специальных товаров
     private int countSpecialProducts() {
         int count = 0;
-        for (Product product : products) {
-            if (product.isSpecial()) {
-                count++;
+        for (List<Product> list : products.values()) {
+            for (Product product : list) {
+                if (product.isSpecial()) {
+                    count++;
+                }
             }
         }
         return count;

@@ -9,14 +9,14 @@ import org.skypro.skyshop.searching.SearchEngine;
 import org.skypro.skyshop.searching.Searchable;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 public class App {
     public static void main(String[] args) {
-        // Создаем корзину
+        // Создание корзины
         ProductBasket basket = new ProductBasket();
 
-        // Создаем товары различного типа
+        // Различные виды товаров
         SimpleProduct tea = new SimpleProduct("Чай", 50);
         DiscountedProduct chocolate = new DiscountedProduct("Шоколад", 100, 20);
         FixPriceProduct bread = new FixPriceProduct("Хлеб");
@@ -26,7 +26,7 @@ public class App {
         basket.addProduct(chocolate);
         basket.addProduct(bread);
 
-        // Выводим корзину ДО удаления
+        // Показываем корзину ДО удаления
         System.out.println("Корзина ДО удаления:");
         basket.printProducts();
 
@@ -34,13 +34,13 @@ public class App {
         System.out.println("\nУдаляем шоколад из корзины...");
         List<Product> removedProducts = basket.removeByName("Шоколад");
 
-        // Проверяем удалённые товары
+        // Просматриваем удалённые товары
         System.out.println("\nУдалённые товары:");
         for (Product p : removedProducts) {
             System.out.println(p.toString());
         }
 
-        // Выводим корзину ПОСЛЕ удаления
+        // Корзина ПОСЛЕ удаления
         System.out.println("\nКорзина ПОСЛЕ удаления:");
         basket.printProducts();
 
@@ -52,20 +52,15 @@ public class App {
         engine.add(chocolate);
         engine.add(bread);
 
-        // Проводим поиск
+        // Выполняем поиск
         System.out.println("\n=== Поиск ===");
-        List<Searchable> rawResults = engine.search("Шоколад"); // Поиск возвращает List<Searchable>, а не List<Product>
-        List<Product> results = rawResults.stream()
-                .filter(item -> item instanceof Product) // Оставляем только товары
-                .map(item -> (Product) item) // Приводим к типу Product
-                .collect(Collectors.toList());
-
-        if (results.isEmpty()) {
+        TreeMap<String, Searchable> sortedResults = engine.search("Шоколад");
+        if (sortedResults.isEmpty()) {
             System.out.println("Совпадений не найдено.");
         } else {
             System.out.println("Найдено совпадений: ");
-            for (Product result : results) {
-                System.out.println(result.getName());
+            for (var entry : sortedResults.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue().toString());
             }
         }
     }
