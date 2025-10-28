@@ -1,5 +1,5 @@
 package org.skypro.skyshop.article;
-
+import java.util.Objects;
 import org.skypro.skyshop.searching.Searchable;
 
 public class Article implements Searchable {
@@ -13,12 +13,12 @@ public class Article implements Searchable {
 
     @Override
     public String getSearchTerm() {
-        return title + " " + content; // Поиск по заголовку и содержанию
+        return title + " " + content; // Поиск по заголовку и контенту
     }
 
     @Override
     public String getContentType() {
-        return "ARTICLE"; // Тип контента — статья
+        return "ARTICLE";
     }
 
     @Override
@@ -26,11 +26,24 @@ public class Article implements Searchable {
         return title;
     }
 
+    // Переопределение методов equals и hashCode
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Article other)) return false;
+        return title.equals(other.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
+
     @Override
     public String toString() {
-        return "Статья {" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
+        return "Статья{" +
+                "заголовок='" + title + '\'' +
+                ", содержание='" + content + '\'' +
                 '}';
     }
 }

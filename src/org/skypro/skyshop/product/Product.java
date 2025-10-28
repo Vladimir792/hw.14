@@ -1,10 +1,10 @@
 package org.skypro.skyshop.product;
-
+import java.util.Objects;
 import org.skypro.skyshop.searching.Searchable;
 
 public abstract class Product implements Searchable {
-    private final String name;
-    private final int price;
+    protected final String name;
+    protected final int price;
 
     public Product(String name, int price) {
         this.name = name;
@@ -23,17 +23,30 @@ public abstract class Product implements Searchable {
 
     @Override
     public String getSearchTerm() {
-        return name; // По умолчанию поиск по названию
+        return name; // Поиск по названию
     }
 
     @Override
     public String getContentType() {
-        return "PRODUCT"; // Тип контента — товар
+        return "PRODUCT";
+    }
+
+    // Переопределение методов equals и hashCode
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Product other)) return false;
+        return name.equals(other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
-        return "Товар {" +
+        return "Товар{" +
                 "название='" + name + '\'' +
                 ", цена=" + price +
                 '}';
