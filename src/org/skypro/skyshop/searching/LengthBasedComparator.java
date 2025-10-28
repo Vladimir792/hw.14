@@ -8,7 +8,7 @@ public class LengthBasedComparator implements Comparator<Searchable> {
         // Первое сравнение: длина имен
         int lengthComparison = Integer.compare(o2.getName().length(), o1.getName().length());
         if (lengthComparison != 0) {
-            return lengthComparison; // Возврат разницы в длине имен
+            return lengthComparison; // Возврат разницы в длине имени
         }
 
         // Второе сравнение: лексический порядок (alphabetical order)
