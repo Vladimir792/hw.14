@@ -9,6 +9,7 @@ import org.skypro.skyshop.searching.SearchEngine;
 import org.skypro.skyshop.searching.Searchable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class App {
@@ -54,7 +55,11 @@ public class App {
 
         // Выполняем поиск
         System.out.println("\n=== Поиск ===");
-        TreeMap<String, Searchable> sortedResults = engine.search("Шоколад");
+        Set<Searchable> resultsSet = engine.search("Шоколад"); // Получаем множество
+        TreeMap<String, Searchable> sortedResults = new TreeMap<>(); // Создаем мапу
+        for (Searchable result : resultsSet) {
+            sortedResults.put(result.getName(), result); // Формируем мапу
+        }
         if (sortedResults.isEmpty()) {
             System.out.println("Совпадений не найдено.");
         } else {

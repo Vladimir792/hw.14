@@ -7,6 +7,7 @@ import org.skypro.skyshop.searching.SearchEngine;
 import org.skypro.skyshop.searching.Searchable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class AppTest {
@@ -56,24 +57,32 @@ public class AppTest {
 
         // Поиск по слову "чай"
         System.out.println("\n=== Поиск по слову 'чай' ===");
-        TreeMap<String, Searchable> results = engine.search("чай"); // ← Новая переменная типа TreeMap
+        Set<Searchable> resultsSet = engine.search("чай"); // Получаем множество
+        TreeMap<String, Searchable> results = new TreeMap<>(); // Создаем мапу для сортировки
+        for (Searchable result : resultsSet) {
+            results.put(result.getName(), result); // Формируем мапу с объектами
+        }
         if (results.isEmpty()) {
             System.out.println("Совпадений не найдено.");
         } else {
             System.out.println("Найдено совпадений: ");
-            for (var entry : results.entrySet()) { // ← Работаем с парами ключ-значение
+            for (var entry : results.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue().toString());
             }
         }
 
         // Поиск по слову "сыр" (которого нет)
         System.out.println("\n=== Поиск по слову 'сыр' ===");
-        results = engine.search("сыр"); // ← То же самое, дерево сохраняется
+        resultsSet = engine.search("сыр"); // Повторяем процедуру для нового запроса
+        results.clear(); // Очищаем мапу перед добавлением новых результатов
+        for (Searchable result : resultsSet) {
+            results.put(result.getName(), result); // Формирование мапы
+        }
         if (results.isEmpty()) {
             System.out.println("Совпадений не найдено.");
         } else {
             System.out.println("Найдено совпадений: ");
-            for (var entry : results.entrySet()) { // ← Аналогично обрабатывается
+            for (var entry : results.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue().toString());
             }
         }
