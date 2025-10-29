@@ -2,10 +2,7 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductBasket {
     private final Map<String, List<Product>> products = new HashMap<>();
@@ -24,36 +21,27 @@ public class ProductBasket {
     // Печать содержимого корзины
     public void printProducts() {
         System.out.println("Список товаров в корзине:");
-        for (List<Product> list : products.values()) {
-            for (Product product : list) {
-                System.out.println(product.toString());
-            }
-        }
+        products.values().stream()                           // Получаем поток всех значений
+                .flatMap(Collection::stream)              // Упрощаем структуру в единый поток
+                .forEach(System.out::println);            // Выводим каждый элемент
+
         System.out.println("Итого: " + getTotalCost());
-        System.out.println("Количество специальных товаров: " + countSpecialProducts());
+        System.out.println("Количество специальных товаров: " + getSpecialCount());
     }
 
-    // Вычисляет общую стоимость товаров в корзине
+    // Возвращает общую стоимость товаров в корзине
     public int getTotalCost() {
-        int total = 0;
-        for (List<Product> list : products.values()) {
-            for (Product product : list) {
-                total += product.getPrice();
-            }
-        }
-        return total;
+        return products.values().stream()                    // Поток списков товаров
+                .flatMap(List::stream)               // Преобразовываем каждый список в плоское представление
+                .mapToInt(Product::getPrice)         // Преобразуем каждую сущность продукта в её цену
+                .sum();                              // Суммируем полученные целочисленные значения
     }
 
-    // Подсчитывает количество специальных товаров
-    private int countSpecialProducts() {
-        int count = 0;
-        for (List<Product> list : products.values()) {
-            for (Product product : list) {
-                if (product.isSpecial()) {
-                    count++;
-                }
-            }
-        }
-        return count;
+    // Приватный метод подсчета количества специальных товаров
+    private long getSpecialCount() {
+        return products.values().stream()                    // Получаем поток всех значений
+                .flatMap(Collection::stream)        // Упрощаем структуру в единый поток
+                .filter(Product::isSpecial)         // Оставляем только специальные товары
+                .count();                            // Подсчитываем количество оставшихся товаров
     }
 }
